@@ -21,7 +21,7 @@ export function AppHeader() {
           <button
             className="navbar-toggler border-0"
             type="button"
-            data-bs-toggle="#basic-navbar-nav"
+            data-bs-toggle="collapse"
             data-bs-target="#basic-navbar-nav"
             aria-controls="basic-navbar-nav"
             aria-expanded="false"
