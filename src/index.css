@@ -1,0 +1,148 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  background: radial-gradient(circle at top left, rgba(139, 92, 246, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.18), transparent 20%),
+    #040617;
+  color: #f8fafc;
+}
+
+a {
+  color: #c084fc;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #a855f7;
+}
+
+button,
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.navbar-glass {
+  background: rgba(10, 14, 24, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.brand-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navbar-brand .text-accent {
+  color: #f472b6 !important;
+}
+
+.nav-links-header .nav-link {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 0.8rem;
+}
+
+.nav-links-header .btn-link {
+  color: #f8fafc !important;
+  font-weight: 600;
+}
+
+.footer-glass {
+  background: rgba(10, 14, 24, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-card,
+.auth-card,
+.profile-card {
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 32px 80px rgba(15, 23, 42, 0.24);
+}
+
+.hero-title {
+  font-family: "Poppins", system-ui, sans-serif;
+  color: #f8fafc;
+}
+
+.hero-text,
+.auth-card p,
+.profile-card p,
+.hero-card p,
+.bg-soft p,
+.text-muted {
+  color: #d1d5db !important;
+}
+
+.text-muted {
+  color: #94a3b8 !important;
+}
+
+.text-accent {
+  color: #a78bfa !important;
+}
+
+.btn-brand {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+  border: none;
+  color: #fff;
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+  background: linear-gradient(135deg, #a855f7 0%, #f472b6 100%);
+}
+
+.bg-soft {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.bg-transparent-glass {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.shadow-glow {
+  box-shadow: 0 18px 50px rgba(99, 102, 241, 0.18);
+}
+
+.section-title {
+  letter-spacing: 0.06em;
+}
+
+.card a {
+  color: #c084fc;
+}
+
+.card a:hover {
+  color: #a855f7;
+}
