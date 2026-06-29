@@ -5,6 +5,8 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { MiPerfilPage } from "./pages/MiPerfilPage";
+import { CreatePost } from "./pages/CreatePost";
+import { PostDetail } from "./pages/PostDetail";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 
 function App() {
@@ -12,6 +14,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/post/:id" element={<PostDetail />} />
 
         <Route path="/login" element={<LoginPage />} />
 
@@ -19,6 +22,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mi-perfil" element={<MiPerfilPage />} />
+          <Route path="/crear-post" element={<CreatePost />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
