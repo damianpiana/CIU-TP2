@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { CreatePost } from "./pages/CreatePost";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
@@ -19,6 +20,7 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mi-perfil" element={<MiPerfilPage />} />
+          <Route path="/crear-post" element={<CreatePost />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -26,5 +28,4 @@ function App() {
     </Routes>
   );
 }
-
 export default App;
