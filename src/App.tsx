@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import { CreatePost } from "./pages/CreatePost";
 import { Layout } from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
@@ -30,5 +31,4 @@ function App() {
     </Routes>
   );
 }
-
 export default App;
