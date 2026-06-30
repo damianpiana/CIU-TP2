@@ -6,7 +6,6 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { MiPerfilPage } from "./pages/MiPerfilPage";
-import { CreatePost } from "./pages/CreatePost";
 import { PostDetail } from "./pages/PostDetail";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 
