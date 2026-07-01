@@ -113,7 +113,7 @@ export function RegisterPage() {
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label className="fw-semibold text-white">Email (Opcional)</Form.Label>
+              <Form.Label className="fw-semibold text-white">Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Ingresá tu email"

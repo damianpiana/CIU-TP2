@@ -1,11 +1,12 @@
-import { Button, Card, Container } from "react-bootstrap";
+import { Button, Card, Container, Modal } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 import {
   obtenerPostsPorUsuario,
   getPostComments,
+  eliminarPost,
 } from "../services/PostService";
 import type { Post } from "../types/post";
 
@@ -19,6 +20,7 @@ export function MiPerfilPage() {
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState<PostConComentarios[]>([]);
+  const [postToDelete, setPostToDelete] = useState<number | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -52,6 +54,19 @@ export function MiPerfilPage() {
   function handleLogout() {
     logout();
     navigate("/");
+  }
+
+  const canManagePosts = Boolean(user);
+
+  async function handleDeletePost(postId: number) {
+    try {
+      await eliminarPost(postId);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setPosts((prev) => prev.filter((post) => post.id !== postId));
+      setPostToDelete(null);
+    }
   }
 
   return (
@@ -89,14 +104,46 @@ export function MiPerfilPage() {
                   </p>
                 </div>
 
-                <Link to={`/post/${post.id}`}>
-                  <Button variant="outline-primary">Ver más →</Button>
-                </Link>
+                <div className="d-flex flex-wrap gap-2 justify-content-end ms-auto">
+                  {canManagePosts && (
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      className="rounded-pill px-3"
+                      onClick={() => setPostToDelete(post.id)}
+                    >
+                      Borrar post
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    className="rounded-pill px-3"
+                    onClick={() => navigate(`/post/${post.id}`)}
+                  >
+                    Ver más →
+                  </Button>
+                </div>
               </div>
             </Card.Body>
           </Card>
         ))
       )}
+
+      <Modal show={postToDelete !== null} onHide={() => setPostToDelete(null)} centered>
+        <Modal.Body className="bg-soft rounded-4 border-0 p-4 text-white">
+          <h5 className="mb-3">¿Borrar esta publicación?</h5>
+          <p className="text-white-50 mb-4">Esta acción no se puede deshacer.</p>
+          <div className="d-flex justify-content-end gap-2">
+            <Button variant="outline-light" onClick={() => setPostToDelete(null)}>
+              Cancelar
+            </Button>
+            <Button variant="danger" onClick={() => postToDelete && handleDeletePost(postToDelete)}>
+              Borrar
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 }

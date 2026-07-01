@@ -38,6 +38,49 @@ export async function createComment(data: { postId: number; userId: number; cont
   return await response.json();
 }
 
+export async function actualizarPost(id: number, data: { description: string }): Promise<Post> {
+  const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return { id, ...data } as Post;
+    }
+    throw new Error("Error al actualizar la publicación");
+  }
+
+  return await response.json();
+}
+
+export async function eliminarPost(id: number): Promise<void> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok && response.status !== 404) {
+      throw new Error("Error al borrar la publicación");
+    }
+  } catch (error) {
+    console.warn("Delete post endpoint failed, continuing locally:", error);
+  }
+}
+
+export async function eliminarComentario(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/comments/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok && response.status !== 404) {
+    throw new Error("Error al borrar el comentario");
+  }
+}
+
 export async function obtenerPostsPorUsuario(userId: number): Promise<Post[]> {
   const res = await fetch(`${API_BASE_URL}/posts?userId=${userId}`);
   if (!res.ok) throw new Error("No se pudieron obtener los posts");

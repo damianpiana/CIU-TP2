@@ -38,6 +38,13 @@ export function CreatePost() {
     obtenerTags().then(setTags);
   }, []);
 
+  function handleRemoveImage(index: number) {
+    setImages((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      return next.length > 0 ? next : [""];
+    });
+  }
+
   async function handleSubmit(
     e: React.FormEvent
   ) {
@@ -64,11 +71,12 @@ export function CreatePost() {
   }
 
   return (
-    <Container className="py-5">
-      <h2>Nueva publicación</h2>
+    <Container className="py-5 d-flex justify-content-center">
+      <div className="w-100" style={{ maxWidth: "700px" }}>
+        <h2 className="text-center mb-4">Nueva publicación</h2>
 
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form onSubmit={handleSubmit} className="bg-soft p-4 rounded-4">
+          <Form.Group className="mb-3">
           <Form.Label>
             Descripción
           </Form.Label>
@@ -90,22 +98,32 @@ export function CreatePost() {
           </Form.Label>
 
           {images.map((img, index) => (
-            <Form.Control
-              key={index}
-              className="mb-2"
-              value={img}
-              placeholder="URL de imagen"
-              onChange={(e) => {
-                const copy = [
-                  ...images,
-                ];
+            <div key={index} className="d-flex gap-2 mb-2">
+              <Form.Control
+                value={img}
+                placeholder="URL de imagen"
+                onChange={(e) => {
+                  const copy = [
+                    ...images,
+                  ];
 
-                copy[index] =
-                  e.target.value;
+                  copy[index] =
+                    e.target.value;
 
-                setImages(copy);
-              }}
-            />
+                  setImages(copy);
+                }}
+              />
+
+              <Button
+                type="button"
+                variant="outline-danger"
+                onClick={() =>
+                  handleRemoveImage(index)
+                }
+              >
+                X
+              </Button>
+            </div>
           ))}
 
           <Button
@@ -137,10 +155,11 @@ export function CreatePost() {
           />
         </Form.Group>
 
-        <Button type="submit">
-          Crear publicación
-        </Button>
-      </Form>
+          <Button type="submit" className="btn-brand">
+            Crear publicación
+          </Button>
+        </Form>
+      </div>
     </Container>
   );
 }

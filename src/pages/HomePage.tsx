@@ -16,7 +16,8 @@ export function HomePage() {
     async function fetchPosts() {
       try {
         const data = await getPosts();
-        setPosts(data);
+        const sortedPosts = [...data].sort((a, b) => b.id - a.id);
+        setPosts(sortedPosts);
       } catch (err) {
         setError("No se pudieron cargar las publicaciones recientes.");
       } finally {

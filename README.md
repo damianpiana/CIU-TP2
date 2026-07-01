@@ -25,6 +25,22 @@ Luego abrir en el navegador la URL que indique Vite, por ejemplo:
 http://localhost:5173/
 ```
 
+## Capturas
+
+Algunas vistas del proyecto:
+
+![Login](Capturas/Login.png)
+
+![Home](Capturas/Home.png)
+
+![Create Post](Capturas/CreatePost.png)
+
+![Mi Perfil](Capturas/MiPerfil.png)
+
+![Post Detail](Capturas/PostDetail.png)
+
+![Register](Capturas/Register.png)
+
 ## Notas
 
 - La aplicación usa React, React Router y React Bootstrap.
