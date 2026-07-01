@@ -1,5 +1,11 @@
 # CIU TP2
 
+## Integrantes
+
+- Franco Ariel Martín
+- Guillermo Castro
+- Damian Piana
+
 Proyecto React + Vite para la materia CIU.
 
 ## Requisitos
