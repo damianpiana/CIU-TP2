@@ -31,6 +31,10 @@ Luego abrir en el navegador la URL que indique Vite, por ejemplo:
 http://localhost:5173/
 ```
 
+## API Utilizada
+
+Este proyecto utiliza la API provista por la consigna (Caja Negra).
+
 ## Capturas
 
 Algunas vistas del proyecto:
@@ -50,4 +54,3 @@ Algunas vistas del proyecto:
 ## Notas
 
 - La aplicación usa React, React Router y React Bootstrap.
-

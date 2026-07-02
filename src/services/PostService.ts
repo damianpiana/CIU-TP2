@@ -92,10 +92,15 @@ export async function crearPost(data: {
   userId: number;
   tags: number[];
 }): Promise<Post> {
+  const payload = {
+    description: data.description,
+    userId: data.userId,
+    tagIds: data.tags
+  };
   const res = await fetch(`${API_BASE_URL}/posts`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   });
   if (!res.ok) throw new Error("No se pudo crear el post");
   return await res.json();

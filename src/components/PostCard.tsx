@@ -64,11 +64,11 @@ export function PostCard({ post }: PostCardProps) {
           </div>
         )}
         
-        {post.tags && post.tags.length > 0 && (
+        {((post as any).Tags || post.tags) && ((post as any).Tags || post.tags).length > 0 && (
           <div className="mb-3">
-            {post.tags.map((tag, idx) => (
+            {((post as any).Tags || post.tags).map((tag: any, idx: number) => (
               <Badge bg="dark" text="light" className="me-2 border border-secondary" key={idx}>
-                #{tag}
+                #{tag.name || tag}
               </Badge>
             ))}
           </div>

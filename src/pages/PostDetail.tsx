@@ -197,12 +197,12 @@ export function PostDetail() {
             </div>
           )}
 
-          {post.tags && post.tags.length > 0 && (
+          {((post as any).Tags || post.tags) && ((post as any).Tags || post.tags).length > 0 && (
             <div className="mb-2 border-top border-secondary pt-4">
               <h6 className="text-white-50 mb-3 text-uppercase small tracking-wide">Etiquetas Relacionadas</h6>
-              {post.tags.map((tag, idx) => (
+              {((post as any).Tags || post.tags).map((tag: any, idx: number) => (
                 <Badge bg="dark" text="light" className="me-2 border border-secondary p-2 px-3 rounded-pill" key={idx}>
-                  #{tag}
+                  #{tag.name || tag}
                 </Badge>
               ))}
             </div>

@@ -1,23 +1,40 @@
 import { useEffect, useState } from "react";
-import { Container, Spinner, Alert } from "react-bootstrap";
+import { Container, Spinner, Alert, Form, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getPosts } from "../services/PostService";
-import type { Post } from "../types/post";
+import { getPosts, obtenerTags, getPostComments } from "../services/PostService";
+import type { Post, Tag } from "../types/post";
 import { PostCard } from "../components/PostCard";
 
 export function HomePage() {
   const { isAuthenticated } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  const [selectedTag, setSelectedTag] = useState<number | "">("");
+  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "most_commented">("newest");
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const data = await getPosts();
-        const sortedPosts = [...data].sort((a, b) => b.id - a.id);
-        setPosts(sortedPosts);
+        const [postsData, tagsData] = await Promise.all([getPosts(), obtenerTags()]);
+        
+        // Obtener cantidad de comentarios de cada post para poder ordenar
+        const postsWithComments = await Promise.all(
+          postsData.map(async (post) => {
+            try {
+              const comments = await getPostComments(post.id.toString());
+              return { ...post, commentsCount: comments.length };
+            } catch (e) {
+              return { ...post, commentsCount: 0 };
+            }
+          })
+        );
+
+        setPosts(postsWithComments);
+        setTags(tagsData);
       } catch (err) {
         setError("No se pudieron cargar las publicaciones recientes.");
       } finally {
@@ -26,6 +43,24 @@ export function HomePage() {
     }
     fetchPosts();
   }, []);
+
+  // Lógica de filtrado y ordenamiento combinados
+  let filteredPosts = [...posts];
+
+  if (selectedTag !== "") {
+    filteredPosts = filteredPosts.filter(p => 
+      p.Tags?.some(t => t.id === Number(selectedTag)) || 
+      p.tags?.some((t: any) => t.id === Number(selectedTag) || t === tags.find(x => x.id === Number(selectedTag))?.name)
+    );
+  }
+
+  if (sortBy === "newest") {
+    filteredPosts.sort((a, b) => b.id - a.id);
+  } else if (sortBy === "oldest") {
+    filteredPosts.sort((a, b) => a.id - b.id);
+  } else if (sortBy === "most_commented") {
+    filteredPosts.sort((a, b) => (b.commentsCount || 0) - (a.commentsCount || 0));
+  }
 
   return (
     <Container className="py-5">
@@ -68,6 +103,41 @@ export function HomePage() {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h4 className="text-white fw-bold mb-0">Publicaciones Recientes</h4>
           </div>
+
+          <OverlayTrigger
+            placement="top"
+            overlay={!isAuthenticated ? <Tooltip>Inicia sesión para utilizar los filtros</Tooltip> : <></>}
+          >
+            <div className={`bg-soft p-3 rounded-4 mb-4 ${!isAuthenticated ? 'opacity-50' : ''}`}>
+              <Row>
+                <Col md={6} className="mb-2 mb-md-0">
+                  <Form.Label className="text-white small fw-bold">Filtrar por Tag</Form.Label>
+                  <Form.Select 
+                    disabled={!isAuthenticated}
+                    value={selectedTag}
+                    onChange={(e) => setSelectedTag(e.target.value === "" ? "" : Number(e.target.value))}
+                  >
+                    <option value="">Todos los tags</option>
+                    {tags.map(tag => (
+                      <option key={tag.id} value={tag.id}>{tag.name}</option>
+                    ))}
+                  </Form.Select>
+                </Col>
+                <Col md={6}>
+                  <Form.Label className="text-white small fw-bold">Ordenar por</Form.Label>
+                  <Form.Select 
+                    disabled={!isAuthenticated}
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                  >
+                    <option value="newest">Más recientes</option>
+                    <option value="oldest">Más antiguos</option>
+                    <option value="most_commented">Más comentados</option>
+                  </Form.Select>
+                </Col>
+              </Row>
+            </div>
+          </OverlayTrigger>
           
           {loading && (
             <div className="text-center py-5">
@@ -86,7 +156,7 @@ export function HomePage() {
             </div>
           )}
 
-          {!loading && !error && posts.map((post) => (
+          {!loading && !error && filteredPosts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
